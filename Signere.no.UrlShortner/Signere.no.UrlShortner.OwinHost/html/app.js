@@ -6,10 +6,11 @@ var app=angular.module("urlshortner",[])
   this.ShortUrl=undefined;
   this.AccessToken=undefined;
   this.Create=function(){
+    var self=this;
     $http.post('https://urlshortner.azurewebsites.net',{Url:this.Url}).then(function(result){
       console.log(result.data);
-      this.ShortUrl=result.data.ShortUrl;
-      this.AccessToken=result.data.AccessToken;
+      self.ShortUrl=result.data.ShortUrl;
+      self.AccessToken=result.data.AccessToken;
     })
   };
   
