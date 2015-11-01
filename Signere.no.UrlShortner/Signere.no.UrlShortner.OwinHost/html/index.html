@@ -4,11 +4,12 @@
 <!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
 <!--[if gt IE 8]><!-->
 <html class="no-js" lang="">
- <!--<![endif]-->
+<!--<![endif]-->
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title></title>    
+    <title></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Signere.no Norges raskeste og enkleste vei til elektronisk signatur URL shortner">
     <meta name="author" content="Signere.no">
@@ -19,31 +20,58 @@
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 
 </head>
+
 <body>
     <div class="container">
-        <h1>Signere.no URL shortner</h1>
+        <div class="row">
+            <div class="col-md-10 col-md-offset1">
+                <h1>Signere.no URL shortner</h1>
 
-        <p class="lead">
+                <p class="lead">
 
-            URL shortner with support for:
-            <ul>
-                <li>
-                    https and strict transportprotocol
-                </li>
-                <li>URL expires - set expire date and time for url</li>
-                <li>Block iframe for URL via security headers (X-Frame and Content-Security)</li>
-                <li>Update or Delete url support</li>
-            </ul>
+                    URL shortner with support for:
+                    <ul>
+                        <li>
+                            https and strict transportprotocol
+                        </li>
+                        <li>URL expires - set expire date and time for url</li>
+                        <li>Block iframe for URL via security headers (X-Frame and Content-Security)</li>
+                        <li>Update or Delete url support</li>
+                    </ul>
 
 
-            For more info go to our <a href="https://github.com/Signereno/UrlShortner/wiki">GitHub </a> page
-        </p>
+                    For more info go to our <a href="https://github.com/Signereno/UrlShortner/wiki">GitHub </a> page
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-10 col-md-offset1">
+                <div ng-controller="main as vm">
+
+                    <input type="url" ng-model="vm.Url" ng-change="vm.UrlChange()" style="width=80%;" />
+                    <button class="btn btn-primary" ng-click="vm.Create()" ng-disabled="!vm.Url">Create</button>
+
+
+                    <div class="alert alert-info" ng-show="vm.ShortUrl">
+                        <a ng-href="vm.ShortUrl">{{vm.ShortUrl}}</a>
+                        <p>{{vm.AccessToken}}
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <footer class="footer">
             <img src="https://az280641.vo.msecnd.net/icons/favicon.ico" /><span class="text-muted">&nbsp;Developed by <a href="https://www.signere.no" style="display: inline" target="_blank">Signere.no AS &reg;</a></span>
         </footer>
 
-    </div> <!-- /container -->
+    </div>
+    <!-- /container -->
 
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular.min.js"></script>
+    <script src="https://code.jquery.com/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="app.js"></script>
 </body>
+
 </html>
