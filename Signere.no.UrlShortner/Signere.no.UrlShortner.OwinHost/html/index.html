@@ -51,10 +51,10 @@
                     <input type="url" ng-model="vm.Url" ng-change="vm.UrlChange()" style="width:80%;" />
                     <button class="btn btn-primary" ng-click="vm.Create()" ng-disabled="!vm.Url">Create</button>
 
-
+                    <hr/>
                     <div class="alert alert-info" ng-show="vm.ShortUrl">
-                        <a ng-href="{{vm.ShortUrl}}" title="Go to url" target="_blank">{{vm.ShortUrl}}</a>
-                        <p><strong>Access token</strong>{{vm.AccessToken}}</p>
+                        <strong>Short url: </strong><a ng-href="{{vm.ShortUrl}}" title="Go to url" target="_blank">{{vm.ShortUrl}}</a>
+                        <p><strong>Access token: </strong>{{vm.AccessToken}}</p>
                     </div>
                 </div>
             </div>
