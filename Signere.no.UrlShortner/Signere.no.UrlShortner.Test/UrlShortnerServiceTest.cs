@@ -16,7 +16,7 @@ namespace Signere.no.UrlShortner.Test
         [TestFixtureSetUp]
         public void Setup()
         {
-            service=new UrlShortnerService("signereunittest", "mF3/PAvi3dXLB84iezk4KL047DrlkSF7RN7B8lg4pakzgGAGAfalPmDym8s3hOXMtS5Sw5cID7Kssz3TJX4O+A==","https://s.signere.no",false);
+            service=new UrlShortnerService("", "","https://s.signere.no",false);
         }
 
         [Test]
@@ -54,7 +54,22 @@ namespace Signere.no.UrlShortner.Test
         public async void GetShortUrl_should_not_be_null()
         {
             var result = await service.Create(testUrl1, DateTime.UtcNow.AddHours(1));
-            var response=await service.Get(result.Id);
+
+
+            Stopwatch stopwatch = new Stopwatch();
+
+            // Begin timing
+            stopwatch.Start();
+            var response = await service.Get(result.Id);
+
+            // Stop timing
+            stopwatch.Stop();
+
+            // Write result
+            Console.WriteLine("Time elapsed: {0}",
+                stopwatch.Elapsed);
+
+            
             
             Assert.IsNotNullOrEmpty(response);
 

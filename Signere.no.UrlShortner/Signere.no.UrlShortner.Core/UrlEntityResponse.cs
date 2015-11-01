@@ -11,19 +11,25 @@ namespace Signere.no.UrlShortner.Core
         public string Id { get; set; }
     }
 
-    public class UrlEntity
+    public class UrlEntity: UrlEntityRequest
     {
-
-
-        public string Url { get; set; }
-        public bool AllowIframe { get; set; }
-
-        public DateTime? Expires { get; set; }
 
     
         public string Id { get; set; }
 
 
         public string AccessToken { get; set; }
+    }
+
+    public class UrlEntityRequest
+    {
+
+
+        public string Url { get; set; }
+        public bool BlockiFrame { get; set; }
+
+        public DateTime? Expires { get; set; }
+
+
     }
 }

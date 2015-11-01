@@ -13,7 +13,7 @@ namespace Signere.no.UrlShortner.Service
 
 
         public string Url { get; set; }
-        public bool AllowIframe  { get; set; }
+        public bool BlockiFrame  { get; set; }
 
         public DateTime? Expires { get; set; }
 

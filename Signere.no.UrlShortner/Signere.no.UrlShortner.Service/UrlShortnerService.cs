@@ -54,13 +54,13 @@ namespace Signere.no.UrlShortner.Service
                 this.baseUrl += "/";
         }
 
-        public async Task<UrlEntityResponse> Create(string url, DateTime? Expires = null, bool AllowIframe = false)
+        public async Task<UrlEntityResponse> Create(string url, DateTime? Expires = null, bool BlockiFrame = false)
         {
             UrlEntityInternal newEntityInternal=new UrlEntityInternal()
             {
                 Url = url,
                 Expires = Expires,
-                AllowIframe = AllowIframe,
+                BlockiFrame = BlockiFrame,
                 AccessToken = randomStringGenerator.GetRandomStringAlfaNumeric(12),
                 PartitionKey = randomStringGenerator.GetRandomStringAlfa(3),
                 RowKey = randomStringGenerator.GetRandomStringAlfaNumeric(rnd.Next(3,6)),
@@ -99,15 +99,28 @@ namespace Signere.no.UrlShortner.Service
 
         }
 
-        public async Task Update(string id,string AccessToken, DateTime? Expires = null, bool AllowIframe = false)
+        public Task<UrlEntityResponse> Create(UrlEntityRequest request)
+        {
+            return Create(request.Url, request.Expires, request.BlockiFrame);
+        }
+
+        public  Task Update(string id,string AccessToken, DateTime? Expires = null, bool BlockiFrame = false)
+        {
+            return Update(id, AccessToken, null, Expires, BlockiFrame);
+        }
+
+        public async Task Update(string id, string AccessToken, string url, DateTime? Expires = null, bool BlockiFrame = false)
         {
             var tableRef = GetTableRefFromId(id); ;
 
             UrlEntityInternal entity = await GetEntity(id, AccessToken, tableRef);
 
-            entity.Expires = Expires;
-            entity.AllowIframe = AllowIframe;
+            if(Expires.HasValue)
+                entity.Expires = Expires;
+            entity.BlockiFrame = BlockiFrame;
             entity.ETag = "*";
+            if (!string.IsNullOrWhiteSpace(url))
+                entity.Url = url;
 
             if (Cache != null)
             {
@@ -115,10 +128,15 @@ namespace Signere.no.UrlShortner.Service
                 {
                     Cache[id] = entity;
                 }
-                    
+
             }
 
             await tableRef.ExecuteAsync(TableOperation.Merge(entity));
+        }
+
+        public Task Update(string id, string AccessToken, UrlEntityRequest request)
+        {
+            return Update(id, AccessToken, request.Url, request.Expires, request.BlockiFrame);
         }
 
         public async Task Delete(string id,string AccessToken)
@@ -147,8 +165,6 @@ namespace Signere.no.UrlShortner.Service
 
         private static async Task<UrlEntityInternal> GetEntity(string id, string AccessToken, CloudTable tableRef)
         {
-
-
 
             TableResult retrievedResult = null;
 
@@ -195,7 +211,7 @@ namespace Signere.no.UrlShortner.Service
             return new UrlEntity()
             {
                 Expires = entityInternal.Expires,
-                AllowIframe = entityInternal.AllowIframe,
+                BlockiFrame = entityInternal.BlockiFrame,
                 AccessToken = entityInternal.AccessToken,
                 Url = entityInternal.Url,
                 Id = entityInternal.Id,

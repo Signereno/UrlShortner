@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Signere.no.UrlShortner.Test
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Signere.no.UrlShortner.Core", "Signere.no.UrlShortner.Core\Signere.no.UrlShortner.Core.csproj", "{184D068D-F927-49AA-AC3F-16841E3C8CA0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Signere.no.UrlShortner.OwinHost", "Signere.no.UrlShortner.OwinHost\Signere.no.UrlShortner.OwinHost.csproj", "{A160DDFE-4461-44EA-A9CF-CC2ECD1F09DB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{184D068D-F927-49AA-AC3F-16841E3C8CA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{184D068D-F927-49AA-AC3F-16841E3C8CA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{184D068D-F927-49AA-AC3F-16841E3C8CA0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A160DDFE-4461-44EA-A9CF-CC2ECD1F09DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A160DDFE-4461-44EA-A9CF-CC2ECD1F09DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A160DDFE-4461-44EA-A9CF-CC2ECD1F09DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A160DDFE-4461-44EA-A9CF-CC2ECD1F09DB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
