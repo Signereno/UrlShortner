@@ -60,3 +60,6 @@ G:\git\UrlShortner\Signere.no.UrlShortner\Signere.no.UrlShortner.Test\bin\Debug\
 G:\git\UrlShortner\Signere.no.UrlShortner\Signere.no.UrlShortner.Test\obj\Debug\Signere.no.UrlShortner.Test.csprojResolveAssemblyReference.cache
 G:\git\UrlShortner\Signere.no.UrlShortner\Signere.no.UrlShortner.Test\obj\Debug\Signere.no.UrlShortner.Test.dll
 G:\git\UrlShortner\Signere.no.UrlShortner\Signere.no.UrlShortner.Test\obj\Debug\Signere.no.UrlShortner.Test.pdb
+G:\git\UrlShortner\Signere.no.UrlShortner\Signere.no.UrlShortner.Test\bin\Debug\Signere.no.UrlShortner.Test.dll.config
+G:\git\UrlShortner\Signere.no.UrlShortner\Signere.no.UrlShortner.Test\bin\Debug\Signere.no.UrlShortner.Client.dll
+G:\git\UrlShortner\Signere.no.UrlShortner\Signere.no.UrlShortner.Test\bin\Debug\Signere.no.UrlShortner.Client.pdb

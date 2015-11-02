@@ -4,12 +4,12 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C2F3AB6D-2684-4F0B-8BB2-7289BAB834DC}</ProjectGuid>
+    <ProjectGuid>{1ABCCE5B-03B5-478A-AE17-F39E4CD63412}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Signere.no.UrlShortner.Test</RootNamespace>
-    <AssemblyName>Signere.no.UrlShortner.Test</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <RootNamespace>Signere.no.UrlShortner.Client</RootNamespace>
+    <AssemblyName>Signere.no.UrlShortner.Client</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -30,14 +30,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="nunit.framework, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
-      <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -48,27 +40,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="RandomStringGeneratorTest.cs" />
+    <Compile Include="SimpleJSON.cs" />
+    <Compile Include="UrlShortnerService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UrlShortnerClientTest.cs" />
-    <Compile Include="UrlShortnerServiceTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Signere.no.UrlShortner.Client\Signere.no.UrlShortner.Client.csproj">
-      <Project>{1abcce5b-03b5-478a-ae17-f39e4cd63412}</Project>
-      <Name>Signere.no.UrlShortner.Client</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Signere.no.UrlShortner.Core\Signere.no.UrlShortner.Core.csproj">
       <Project>{184d068d-f927-49aa-ac3f-16841e3c8ca0}</Project>
       <Name>Signere.no.UrlShortner.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Signere.no.UrlShortner.Service\Signere.no.UrlShortner.Service.csproj">
-      <Project>{2873b978-40fe-47bc-a168-d4170fdc5479}</Project>
-      <Name>Signere.no.UrlShortner.Service</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
