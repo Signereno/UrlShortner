@@ -35,6 +35,9 @@ namespace Signere.no.UrlShortner.OwinHost
                 case "put":
                     await InvokePut(context);
                     return;
+                case "options":
+                    context.Response.StatusCode = 200;
+                    return;
                 default:
                     context.Response.StatusCode = 404;
                     await context.Response.WriteAsync("Not valid HTTP METHOD/VERB");
