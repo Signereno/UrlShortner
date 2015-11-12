@@ -183,7 +183,7 @@ namespace Signere.no.UrlShortner.Test
         [TestFixtureTearDown]
         public void CleanUp()
         {
-            //((UrlShortnerService) service).CleanUpTable();
+            ((UrlShortnerService)service).CleanUpTable();
         }
 
 

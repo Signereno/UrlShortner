@@ -41,7 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="SimpleJSON.cs" />
-    <Compile Include="UrlShortnerService.cs" />
+    <Compile Include="UrlShortnerClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Signere.no.UrlShortner.Core
@@ -24,5 +21,13 @@ namespace Signere.no.UrlShortner.Core
 
         Task<UrlEntity> GetEntity(string id);
 
+    }
+
+    public interface IUrlShortnerClient : IDisposable
+    {
+        Task<UrlEntityResponse> Create(string url, DateTime? Expires = null, bool BlockiFrame = false);
+        Task Update(string id, string accesstoken, string url = null, DateTime? Expires = null, bool BlockiFrame = false);
+        Task Delete(string id, string accesstoken);
+        void Dispose();
     }
 }

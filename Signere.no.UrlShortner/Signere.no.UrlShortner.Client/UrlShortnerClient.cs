@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,12 +6,14 @@ using Signere.no.UrlShortner.Core;
 
 namespace Signere.no.UrlShortner.Client
 {
-    public class UrlShortnerService:IDisposable
+
+
+    public class UrlShortnerClient  : IUrlShortnerClient
     {
         private readonly string _serviceUrl;
         private HttpClient httpClient;
 
-        public UrlShortnerService(string serviceUrl= "https://urlshortner.azurewebsites.net/")
+        public UrlShortnerClient(string serviceUrl= "https://s.signere.no")
         {
             _serviceUrl = serviceUrl;
             httpClient=new HttpClient();
