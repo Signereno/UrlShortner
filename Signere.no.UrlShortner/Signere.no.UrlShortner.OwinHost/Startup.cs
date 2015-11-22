@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using Microsoft.Owin;
+using Microsoft.Owin.Cors;
 using Microsoft.Owin.FileSystems;
 using Microsoft.Owin.StaticFiles;
 using Owin;
@@ -25,7 +26,7 @@ namespace Signere.no.UrlShortner.OwinHost
             }
 
 
-            
+            app.UseCors(CorsOptions.AllowAll);
 
 
             var options = new FileServerOptions

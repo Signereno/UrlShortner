@@ -89,7 +89,24 @@ namespace Signere.no.UrlShortner.Service
                     Cache.Add(id, newEntityInternal, cacheExpires);
                 }
 
-                return new UrlEntityResponse() { AccessToken = newEntityInternal.AccessToken, ShortUrl = shortUrl,Id = id};
+                return new UrlEntityResponse()
+                {
+                    AccessToken = newEntityInternal.AccessToken,
+                    ShortUrl = shortUrl,
+                    Id = id
+                };
+            }
+            catch (Microsoft.WindowsAzure.Storage.StorageException e)
+            {
+                if (e.RequestInformation.ExtendedErrorInformation.ErrorCode.Contains(Microsoft.WindowsAzure.Storage.Table.Protocol.TableErrorCodeStrings.EntityAlreadyExists) 
+                    || e.RequestInformation.ExtendedErrorInformation.ErrorMessage.ToLowerInvariant().Contains("already exists"))
+                {
+                    return await Create(url,Expires,BlockiFrame);
+                }
+                else
+                {
+                    throw e;
+                }
             }
             catch (Exception e)
             {                
