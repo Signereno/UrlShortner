@@ -82,7 +82,9 @@ namespace Signere.no.UrlShortner.OwinHost
                 catch (NotFoundException e)
                 {
                     context.Response.StatusCode = 404;
-                    await context.Response.WriteAsync(e.Message);
+                    context.Response.ReasonPhrase = e.Message;
+                    context.Response.ContentType = "text/html";
+                    await context.Response.WriteAsync(File.ReadAllText(System.Web.Hosting.HostingEnvironment.MapPath("~/html/Notfound.html")));
                 }
                 catch (Exception e)
                 {
@@ -124,7 +126,9 @@ namespace Signere.no.UrlShortner.OwinHost
             catch (NotFoundException e)
             {
                 context.Response.StatusCode = 404;
-                await context.Response.WriteAsync(e.Message);
+                context.Response.ReasonPhrase = e.Message;
+                context.Response.ContentType = "text/html";
+                await context.Response.WriteAsync(File.ReadAllText(System.Web.Hosting.HostingEnvironment.MapPath("~/html/Notfound.html")));
             }
             catch (Exception e)
             {
@@ -186,8 +190,10 @@ namespace Signere.no.UrlShortner.OwinHost
             }
             catch (NotFoundException e)
             {
-                context.Response.StatusCode = 401;
-                await context.Response.WriteAsync(e.Message);
+                context.Response.StatusCode = 404;
+                context.Response.ReasonPhrase = e.Message;
+                context.Response.ContentType = "text/html";
+                await context.Response.WriteAsync(File.ReadAllText(System.Web.Hosting.HostingEnvironment.MapPath("~/html/Notfound.html")));
             }
             catch (ExpiredException e)
             {
