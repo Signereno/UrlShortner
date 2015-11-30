@@ -139,13 +139,9 @@ namespace Signere.no.UrlShortner.Service
             if (!string.IsNullOrWhiteSpace(url))
                 entity.Url = url;
 
-            if (Cache != null)
+            if (Cache != null && Cache.Contains(id))
             {
-                if (Cache.Contains(id))
-                {
-                    Cache[id] = entity;
-                }
-
+                Cache[id] = entity;                
             }
 
             await tableRef.ExecuteAsync(TableOperation.Merge(entity));
@@ -163,10 +159,9 @@ namespace Signere.no.UrlShortner.Service
             var entity = await GetEntity(id, AccessToken, tableRef);
             entity.ETag = "*";
 
-            if (Cache != null)
+            if (Cache != null && Cache.Contains(id))
             {
-                if (Cache.Contains(id))
-                    Cache.Remove(id);
+               Cache.Remove(id);
             }
 
             await tableRef.ExecuteAsync(TableOperation.Delete(entity));
@@ -213,10 +208,9 @@ namespace Signere.no.UrlShortner.Service
         public async Task<UrlEntity> GetEntity(string id)
         {
             UrlEntityInternal entityInternal = null;
-            if (Cache != null)
+            if (Cache != null && Cache.Contains(id))
             {
-                if (Cache.Contains(id))
-                    entityInternal = Cache[id] as UrlEntityInternal;
+                entityInternal = Cache[id] as UrlEntityInternal;           
             }
             else
             {
