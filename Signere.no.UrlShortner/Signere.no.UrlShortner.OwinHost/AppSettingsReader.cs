@@ -23,6 +23,8 @@ namespace Signere.no.UrlShortner.OwinHost
 
         public static bool UseCache { get { return Boolean.Parse( GetSetting("useCache")); } }
 
+        public static bool Debug { get { return Boolean.Parse(GetSetting("debug")); } }
+
         private static string GetSetting(string key)
         {
             return ConfigurationManager.AppSettings[key];

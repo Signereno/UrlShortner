@@ -84,10 +84,10 @@ namespace Signere.no.UrlShortner.OwinHost
                     context.Response.StatusCode = 404;
                     await context.Response.WriteAsync(e.Message);
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
                     context.Response.StatusCode = 500;
-                    await context.Response.WriteAsync("Server error");
+                    await context.Response.WriteAsync("Server error" + (AppSettingsReader.Debug ? e.Message : ""));
                 }
             }
         }
@@ -126,10 +126,10 @@ namespace Signere.no.UrlShortner.OwinHost
                 context.Response.StatusCode = 404;
                 await context.Response.WriteAsync(e.Message);
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 context.Response.StatusCode = 500;
-                await context.Response.WriteAsync("Server error");
+                await context.Response.WriteAsync("Server error" + (AppSettingsReader.Debug ? e.Message : ""));
             }
         }
 
@@ -197,7 +197,7 @@ namespace Signere.no.UrlShortner.OwinHost
             catch (Exception e)
             {
                 context.Response.StatusCode = 500;
-                await context.Response.WriteAsync("Server error");
+                await context.Response.WriteAsync("Server error" + (AppSettingsReader.Debug ? e.Message :""));
             }
         }
     }
