@@ -23,7 +23,7 @@ namespace Signere.no.UrlShortner.Core
 
     public class UrlEntityRequest
     {
-        public string AccessKey { get; set; }
+        public string AccessToken { get; set; }
 
 
         public string Url { get; set; }

@@ -20,7 +20,7 @@ namespace Signere.no.UrlShortner.Client
             httpClient.BaseAddress =new Uri(serviceUrl);
         }
 
-        public async Task<UrlEntityResponse> Create(string url, DateTime? Expires=null, bool BlockiFrame = false,string accessKey=null)
+        public async Task<UrlEntityResponse> Create(string url, DateTime? Expires=null, bool BlockiFrame = false,string accessToken=null)
         {
             var jsonObj = new Signere.no.UrlShortner.Client.SimpleJSON.JSONClass();
             jsonObj.Add("Url",url);
@@ -30,8 +30,8 @@ namespace Signere.no.UrlShortner.Client
             if(BlockiFrame)
                 jsonObj.Add("BlockiFrame", BlockiFrame.ToString().ToLowerInvariant()); 
             
-            if(!string.IsNullOrWhiteSpace(accessKey))           
-                jsonObj.Add("AccessKey",accessKey);
+            if(!string.IsNullOrWhiteSpace(accessToken))           
+                jsonObj.Add("AccessToken",accessToken);
 
             var response=await httpClient.PostAsync("",new StringContent(jsonObj.ToJSON(0), Encoding.UTF8,"application/json"));
 

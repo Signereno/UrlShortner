@@ -54,14 +54,14 @@ namespace Signere.no.UrlShortner.Service
                 this.baseUrl += "/";
         }
 
-        public async Task<UrlEntityResponse> Create(string url, DateTime? Expires = null, bool BlockiFrame = false, string accessKey = null)
+        public async Task<UrlEntityResponse> Create(string url, DateTime? Expires = null, bool BlockiFrame = false, string accessToken = null)
         {
             UrlEntityInternal newEntityInternal=new UrlEntityInternal()
             {
                 Url = url,
                 Expires = Expires,
                 BlockiFrame = BlockiFrame,
-                AccessToken =string.IsNullOrWhiteSpace( accessKey) ? randomStringGenerator.GetRandomStringAlfaNumeric(12):accessKey,
+                AccessToken =string.IsNullOrWhiteSpace( accessToken) ? randomStringGenerator.GetRandomStringAlfaNumeric(12):accessToken,
                 PartitionKey = randomStringGenerator.GetRandomStringAlfa(3),
                 RowKey = randomStringGenerator.GetRandomStringAlfaNumeric(rnd.Next(3,6)),
             };
@@ -118,7 +118,7 @@ namespace Signere.no.UrlShortner.Service
 
         public Task<UrlEntityResponse> Create(UrlEntityRequest request)
         {
-            return Create(request.Url, request.Expires, request.BlockiFrame,request.AccessKey);
+            return Create(request.Url, request.Expires, request.BlockiFrame,request.AccessToken);
         }
 
         public  Task Update(string id,string AccessToken, DateTime? Expires = null, bool BlockiFrame = false)

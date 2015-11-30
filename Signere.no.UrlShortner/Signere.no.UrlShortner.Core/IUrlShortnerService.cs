@@ -5,7 +5,7 @@ namespace Signere.no.UrlShortner.Core
 {
     public interface IUrlShortnerService:IDisposable
     {
-        Task<UrlEntityResponse> Create(string url, DateTime? Expires =null, bool BlockiFrame = false,string accessKey=null);
+        Task<UrlEntityResponse> Create(string url, DateTime? Expires =null, bool BlockiFrame = false,string accessToken=null);
 
         Task<UrlEntityResponse> Create(UrlEntityRequest request);
 
@@ -25,7 +25,7 @@ namespace Signere.no.UrlShortner.Core
 
     public interface IUrlShortnerClient : IDisposable
     {
-        Task<UrlEntityResponse> Create(string url, DateTime? Expires = null, bool BlockiFrame = false,string accessKey=null);
+        Task<UrlEntityResponse> Create(string url, DateTime? Expires = null, bool BlockiFrame = false,string accessToken=null);
         Task Update(string id, string accesstoken, string url = null, DateTime? Expires = null, bool BlockiFrame = false);
         Task Delete(string id, string accesstoken);
         void Dispose();
