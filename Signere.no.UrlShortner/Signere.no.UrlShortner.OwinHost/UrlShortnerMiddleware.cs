@@ -169,7 +169,7 @@ namespace Signere.no.UrlShortner.OwinHost
             {
                 var entity = await _service.GetEntity(id);
 
-                int statusCode = entity.Expires.HasValue ? 302 : 301;
+                int statusCode =  302;
                 if (entity.Url.ToLowerInvariant().Contains("https://"))
                 {
                     context.Response.Headers.Append("Strict-Transport-Security", "max-age=31536000");
