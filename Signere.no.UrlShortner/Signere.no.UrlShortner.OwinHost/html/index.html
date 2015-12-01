@@ -48,9 +48,11 @@
             <div class="col-md-10 col-md-offset1">
                 <div ng-controller="main as vm">
 
-                    <input type="url" ng-model="vm.Url" ng-change="vm.UrlChange()" style="width:80%;" />
+                    <input type="url" ng-model="vm.Url" ng-change="vm.UrlChange()" style="width: 80%; margin-bottom: 10px;" placeholder="http://www.longurlthatyouwanttoshorten.com" class="form-control"/>
+                    
+                    <input type="text" ng-model="vm.Prefix" ng-change="vm.UrlChange()" style="width:50%; margin-bottom: 10px;" placeholder="Prefix" class="form-control" />
+                    
                     <button class="btn btn-primary" ng-click="vm.Create()" ng-disabled="!vm.Url">Create</button>
-
                     <hr/>
                     <div class="alert alert-info" ng-show="vm.ShortUrl">
                         <strong>Short url: </strong><a ng-href="{{vm.ShortUrl}}" title="Go to url" target="_blank">{{vm.ShortUrl}}</a>
