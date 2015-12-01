@@ -20,18 +20,25 @@ namespace Signere.no.UrlShortner.Client
             httpClient.BaseAddress =new Uri(serviceUrl);
         }
 
-        public async Task<UrlEntityResponse> Create(string url, DateTime? Expires=null, bool BlockiFrame = false,string accessToken=null)
+        public async Task<UrlEntityResponse> Create(string url, DateTime? Expires = null, bool BlockiFrame = false, bool permanentRedirect = false,
+            string prefix = null, string accessToken = null)
         {
             var jsonObj = new Signere.no.UrlShortner.Client.SimpleJSON.JSONClass();
             jsonObj.Add("Url",url);
 
             if(Expires.HasValue)
                 jsonObj.Add("Expires", Expires.Value.ToString("s", System.Globalization.CultureInfo.InvariantCulture));
-            if(BlockiFrame)
-                jsonObj.Add("BlockiFrame", BlockiFrame.ToString().ToLowerInvariant()); 
-            
-            if(!string.IsNullOrWhiteSpace(accessToken))           
+            if(permanentRedirect)
+                jsonObj.Add("PermanentRedirect", new SimpleJSON.JSONData(true));
+
+            if (BlockiFrame)
+                jsonObj.Add("BlockiFrame", new SimpleJSON.JSONData(true));
+
+            if (!string.IsNullOrWhiteSpace(accessToken))           
                 jsonObj.Add("AccessToken",accessToken);
+
+            if (!string.IsNullOrWhiteSpace(prefix))
+                jsonObj.Add("Prefix", prefix);
 
             var response=await httpClient.PostAsync("",new StringContent(jsonObj.ToJSON(0), Encoding.UTF8,"application/json"));
 
@@ -43,6 +50,8 @@ namespace Signere.no.UrlShortner.Client
             return new UrlEntityResponse() {AccessToken = responseJson["AccessToken"],Id= responseJson["Id"],ShortUrl = responseJson["ShortUrl"]};
 
         }
+
+ 
 
         public async Task Update(string id,string accesstoken,string url=null, DateTime? Expires=null, bool BlockiFrame = false)
         {

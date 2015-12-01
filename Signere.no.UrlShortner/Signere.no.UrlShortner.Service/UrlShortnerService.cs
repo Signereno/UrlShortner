@@ -54,7 +54,7 @@ namespace Signere.no.UrlShortner.Service
                 this.baseUrl += "/";
         }
 
-        public async Task<UrlEntityResponse> Create(string url, DateTime? Expires = null, bool BlockiFrame = false, string accessToken = null)
+        public async Task<UrlEntityResponse> Create(string url, DateTime? Expires = null, bool BlockiFrame = false, bool permanentRedirect = false, string prefix = null, string accessToken = null)
         {
             UrlEntityInternal newEntityInternal=new UrlEntityInternal()
             {
@@ -64,13 +64,16 @@ namespace Signere.no.UrlShortner.Service
                 AccessToken =string.IsNullOrWhiteSpace( accessToken) ? randomStringGenerator.GetRandomStringAlfaNumeric(12):accessToken,
                 PartitionKey = randomStringGenerator.GetRandomStringAlfa(3),
                 RowKey = randomStringGenerator.GetRandomStringAlfaNumeric(rnd.Next(3,6)),
+                PermanentRedirect = permanentRedirect,
+                Prefix = prefix,
+                
             };
             TableOperation op = TableOperation.Insert(newEntityInternal);
 
             var randomTable = Table;
 
             string id = string.Format("{0}{1}",  randomTable.Name, newEntityInternal.Id);
-            string shortUrl = string.Format("{0}{1}", baseUrl,id);
+            string shortUrl =string.IsNullOrWhiteSpace(prefix) ? string.Format("{0}{1}", baseUrl,id): string.Format("{0}{1}/{2}", baseUrl,prefix, id);
 
             if (url.Contains("http://"))
                 shortUrl = shortUrl.Replace("https://", "http://");
@@ -118,15 +121,15 @@ namespace Signere.no.UrlShortner.Service
 
         public Task<UrlEntityResponse> Create(UrlEntityRequest request)
         {
-            return Create(request.Url, request.Expires, request.BlockiFrame,request.AccessToken);
+            return Create(request.Url, request.Expires, request.BlockiFrame,request.PermanentRedirect,request.Prefix, request.AccessToken);
         }
 
-        public  Task Update(string id,string AccessToken, DateTime? Expires = null, bool BlockiFrame = false)
+        public  Task Update(string id,string AccessToken, DateTime? Expires = null, bool BlockiFrame = false, string prefix = null)
         {
-            return Update(id, AccessToken, null, Expires, BlockiFrame);
+            return Update(id, AccessToken, null, Expires, BlockiFrame,prefix);
         }
 
-        public async Task Update(string id, string AccessToken, string url, DateTime? Expires = null, bool BlockiFrame = false)
+        public async Task Update(string id, string AccessToken, string url, DateTime? Expires = null, bool BlockiFrame = false, string prefix = null)
         {
             var tableRef = GetTableRefFromId(id); ;
 
@@ -135,6 +138,8 @@ namespace Signere.no.UrlShortner.Service
             if(Expires.HasValue)
                 entity.Expires = Expires;
             entity.BlockiFrame = BlockiFrame;
+            if(!string.IsNullOrWhiteSpace(prefix))
+                entity.Prefix = prefix;
             entity.ETag = "*";
             if (!string.IsNullOrWhiteSpace(url))
                 entity.Url = url;
@@ -231,6 +236,8 @@ namespace Signere.no.UrlShortner.Service
                 AccessToken = entityInternal.AccessToken,
                 Url = entityInternal.Url,
                 Id = entityInternal.Id,
+                Prefix = entityInternal.Prefix,
+                PermanentRedirect = entityInternal.PermanentRedirect,
             };
         }
 

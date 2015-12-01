@@ -24,5 +24,13 @@ namespace Signere.no.UrlShortner.Service
         }
 
         public string AccessToken { get; set; }
+
+        public string Prefix { get; set; }
+
+        public bool PermanentRedirect { get; set; }
+
+
+
+
     }
 }

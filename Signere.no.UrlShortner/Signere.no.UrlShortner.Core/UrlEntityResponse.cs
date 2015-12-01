@@ -25,11 +25,16 @@ namespace Signere.no.UrlShortner.Core
     {
         public string AccessToken { get; set; }
 
+        public string Prefix { get; set; }
+
 
         public string Url { get; set; }
         public bool BlockiFrame { get; set; }
 
+        public bool PermanentRedirect { get; set; }
+
         public DateTime? Expires { get; set; }
+        
 
 
     }

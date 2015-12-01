@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Owin;
@@ -159,6 +160,22 @@ namespace Signere.no.UrlShortner.OwinHost
         private async Task InvokeGet(IOwinContext context)
         {
             var id = context.Request.Path.Value.Substring(1);
+            string prefix = null;
+            if (id.Contains("/"))
+            {
+                var splitString = id.Split('/');
+
+                if (splitString.Count() != 2)
+                {
+                    context.Response.StatusCode = 404;
+                    await context.Response.WriteAsync("Not valid url pattern");
+                    return;
+                }
+
+                id = splitString.Last();
+                prefix = splitString.First();
+
+            }
 
             if (string.IsNullOrWhiteSpace(id) || id.Length > 20)
             {
@@ -173,7 +190,12 @@ namespace Signere.no.UrlShortner.OwinHost
             {
                 var entity = await _service.GetEntity(id);
 
-                int statusCode =  302;
+                if (!string.IsNullOrWhiteSpace(prefix) && !prefix.Equals(entity.Prefix))
+                {
+                    throw new NotFoundException(id);
+                }
+
+                int statusCode =entity.PermanentRedirect ? 301:  302;
                 if (entity.Url.ToLowerInvariant().Contains("https://"))
                 {
                     context.Response.Headers.Append("Strict-Transport-Security", "max-age=31536000");

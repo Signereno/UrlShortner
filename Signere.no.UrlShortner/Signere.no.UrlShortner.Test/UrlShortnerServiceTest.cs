@@ -12,11 +12,12 @@ namespace Signere.no.UrlShortner.Test
         private IUrlShortnerService service;
         private string testUrl1 = "https://www.signere.no/product/Signere_offline";
         private string testUrl2= "http://www.vg.no/nyheter/innenriks/krim/mann-paagrepet-etter-doedsfall-paa-aandalsnes/a/23553019/";
+        private string accountName = "";
 
         [TestFixtureSetUp]
         public void Setup()
         {
-            service=new UrlShortnerService("", "","https://s.signere.no",false);
+            service=new UrlShortnerService(accountName, "", "https://s.signere.no",false);
         }
 
         [Test]
@@ -38,6 +39,29 @@ namespace Signere.no.UrlShortner.Test
             Assert.IsNotNullOrEmpty(result.AccessToken);
             Assert.IsNotNullOrEmpty(result.ShortUrl);
             
+            Console.WriteLine(result.ShortUrl);
+        }
+
+        [Test]
+        public async void CreateShortUrl_with_prefix_should_contain_prefix()
+        {
+            Stopwatch stopwatch = new Stopwatch();
+
+            // Begin timing
+            stopwatch.Start();
+            var result = await service.Create(testUrl1, DateTime.UtcNow.AddHours(1),false,false,"vardia");
+
+            // Stop timing
+            stopwatch.Stop();
+
+            // Write result
+            Console.WriteLine("Time elapsed: {0}",
+                stopwatch.Elapsed);
+
+            Assert.IsNotNullOrEmpty(result.AccessToken);
+            Assert.IsNotNullOrEmpty(result.ShortUrl);
+            Assert.IsTrue(result.ShortUrl.Contains("varida"));
+
             Console.WriteLine(result.ShortUrl);
         }
 
@@ -183,7 +207,8 @@ namespace Signere.no.UrlShortner.Test
         [TestFixtureTearDown]
         public void CleanUp()
         {
-            ((UrlShortnerService)service).CleanUpTable();
+            if(!accountName.Equals("urlshortner"))
+                ((UrlShortnerService)service).CleanUpTable();
         }
 
 
