@@ -196,10 +196,12 @@ namespace Signere.no.UrlShortner.OwinHost
                 }
 
                 int statusCode =entity.PermanentRedirect ? 301:  302;
-                if (entity.Url.ToLowerInvariant().Contains("https://"))
-                {
-                    context.Response.Headers.Append("Strict-Transport-Security", "max-age=31536000");
-                }
+                //if (entity.Url.ToLowerInvariant().Contains("https://"))
+                //{
+                    context.Response.Headers.Append("Strict-Transport-Security", AppSettingsReader.Baseurl.Contains("signere.no") ?
+                        "max-age=31536000; includeSubdomains; preload":
+                        "max-age=31536000");
+                //}
                 if (entity.BlockiFrame)
                 {
                     context.Response.Headers.Append("X-Frame-Options","DENY");

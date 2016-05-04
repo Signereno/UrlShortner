@@ -35,7 +35,11 @@ namespace Signere.no.UrlShortner.OwinHost
                 EnableDefaultFiles = true,
                 DefaultFilesOptions = { DefaultFileNames = { "index.html" } },
                 FileSystem = new PhysicalFileSystem(@"./html"),
-                RequestPath = new PathString("/html")
+                RequestPath = new PathString("/html"),
+                StaticFileOptions = { OnPrepareResponse = (ContextCallback) =>
+                {
+                    ContextCallback.OwinContext.Response.Headers.Add("X-Frame-Options",new[] {"DENY"});
+                } }
             };
 
             app.UseFileServer(options);
