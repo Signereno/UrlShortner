@@ -39,6 +39,10 @@ namespace Signere.no.UrlShortner.OwinHost
                 StaticFileOptions = { OnPrepareResponse = (ContextCallback) =>
                 {
                     ContextCallback.OwinContext.Response.Headers.Add("X-Frame-Options",new[] {"DENY"});
+                    ContextCallback.OwinContext.Response.Headers.Add("Content-Security-Policy",new string[]
+                    {
+                        "script-src 'self' https://ajax.googleapis.com https://code.jquery.com https://maxcdn.bootstrapcdn.com; style-src https://maxcdn.bootstrapcdn.com; img-src https://az280641.vo.msecnd.net; font-src https://maxcdn.bootstrapcdn.com;"
+                    });
                 } }
             };
 

@@ -123,6 +123,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="UrlShortnerMiddleware.cs" />
+    <Compile Include="UrlShortnerMiddlewareExtension.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Signere.no.UrlShortner.Core\Signere.no.UrlShortner.Core.csproj">

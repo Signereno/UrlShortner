@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Owin;
 using Newtonsoft.Json;
-using Owin;
 using Signere.no.UrlShortner.Core;
 
 namespace Signere.no.UrlShortner.OwinHost
@@ -25,7 +24,20 @@ namespace Signere.no.UrlShortner.OwinHost
             switch (context.Request.Method.ToLowerInvariant())
             {
                 case "get":
-                    await InvokeGet(context);
+                    if (context.Request.Path.ToString().ToLowerInvariant().Contains("robots.txt"))
+                    {
+                        context.Response.StatusCode = 200;
+                        await context.Response.WriteAsync(
+                            new StringBuilder()
+                            .AppendLine("User-Agent: *")
+                            .AppendLine("Disallow: /").ToString()
+                        );
+                    }
+                    else
+                    {
+                        await InvokeGet(context);
+                    }
+                    
                     return;
                 case "post":
                     await InvokePost(context);
@@ -198,9 +210,9 @@ namespace Signere.no.UrlShortner.OwinHost
                 int statusCode =entity.PermanentRedirect ? 301:  302;
                 //if (entity.Url.ToLowerInvariant().Contains("https://"))
                 //{
-                    context.Response.Headers.Append("Strict-Transport-Security", AppSettingsReader.Baseurl.Contains("signere.no") ?
-                        "max-age=31536000; includeSubdomains; preload":
-                        "max-age=31536000");
+                    //context.Response.Headers.Append("Strict-Transport-Security", AppSettingsReader.Baseurl.Contains("signere.no") ?
+                    //    "max-age=31536000; includeSubdomains; preload":
+                    //    "max-age=31536000");
                 //}
                 if (entity.BlockiFrame)
                 {
@@ -229,15 +241,6 @@ namespace Signere.no.UrlShortner.OwinHost
                 context.Response.StatusCode = 500;
                 await context.Response.WriteAsync("Server error" + (AppSettingsReader.Debug ? e.Message + Environment.NewLine + e.InnerException :""));
             }
-        }
-    }
-
-    public static class UrlShortnerMiddlewareExtension
-    {
-        public static void UseUrlShortner(this IAppBuilder app, IUrlShortnerService urlShortnerService)
-        {
-            
-            app.Use<UrlShortnerMiddleware>(urlShortnerService);
         }
     }
 }
