@@ -20,6 +20,7 @@ namespace Signere.no.UrlShortner.OwinHost
 
         public async override Task Invoke(IOwinContext context)
         {
+            SetupSecurityHeaderes(context);
 
             switch (context.Request.Method.ToLowerInvariant())
             {
@@ -56,6 +57,19 @@ namespace Signere.no.UrlShortner.OwinHost
                     await context.Response.WriteAsync("Not valid HTTP METHOD/VERB");
                     return;
 
+            }
+        }
+
+        private static void SetupSecurityHeaderes(IOwinContext context)
+        {
+            if (!string.IsNullOrWhiteSpace(AppSettingsReader.PublicKeyPinning))
+            {
+                context.Response.Headers.Append("Public-Key-Pins", AppSettingsReader.PublicKeyPinning);
+            }
+
+            if (!string.IsNullOrWhiteSpace(AppSettingsReader.HstsHeader))
+            {
+                context.Response.Headers.Append("Strict-Transport-Security", AppSettingsReader.HstsHeader);
             }
         }
 

@@ -24,6 +24,9 @@ namespace Signere.no.UrlShortner.OwinHost
         public static bool UseCache { get { return Boolean.Parse( GetSetting("useCache")); } }
 
         public static bool Debug { get { return Boolean.Parse(GetSetting("debug")); } }
+        public static string PublicKeyPinning { get { return GetSetting("PublicKeyPinning"); } }
+
+        public static string HstsHeader { get { return GetSetting("HstsHeader"); } }
 
         private static string GetSetting(string key)
         {
