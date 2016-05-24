@@ -43,6 +43,16 @@ namespace Signere.no.UrlShortner.OwinHost
                     {
                         "script-src 'self' https://ajax.googleapis.com https://code.jquery.com https://maxcdn.bootstrapcdn.com; style-src https://maxcdn.bootstrapcdn.com; img-src https://az280641.vo.msecnd.net; font-src https://maxcdn.bootstrapcdn.com;"
                     });
+
+                      if (!string.IsNullOrWhiteSpace(AppSettingsReader.PublicKeyPinning))
+                        {
+                             ContextCallback.OwinContext.Response.Headers.Add("Public-Key-Pins",new[] { AppSettingsReader.PublicKeyPinning});
+                        }
+
+                        if (!string.IsNullOrWhiteSpace(AppSettingsReader.HstsHeader))
+                        {
+                             ContextCallback.OwinContext.Response.Headers.Add("Strict-Transport-Security",new[] { AppSettingsReader.HstsHeader});
+                        }
                 } }
             };
 

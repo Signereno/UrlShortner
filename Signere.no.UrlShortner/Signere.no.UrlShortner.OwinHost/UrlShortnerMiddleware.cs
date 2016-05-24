@@ -64,12 +64,12 @@ namespace Signere.no.UrlShortner.OwinHost
         {
             if (!string.IsNullOrWhiteSpace(AppSettingsReader.PublicKeyPinning))
             {
-                context.Response.Headers.Append("Public-Key-Pins", AppSettingsReader.PublicKeyPinning);
+                context.Response.Headers.Add("Public-Key-Pins", new[] { AppSettingsReader.PublicKeyPinning }); ;
             }
 
             if (!string.IsNullOrWhiteSpace(AppSettingsReader.HstsHeader))
             {
-                context.Response.Headers.Append("Strict-Transport-Security", AppSettingsReader.HstsHeader);
+                context.Response.Headers.Add("Strict-Transport-Security", new[] { AppSettingsReader.HstsHeader });
             }
         }
 
