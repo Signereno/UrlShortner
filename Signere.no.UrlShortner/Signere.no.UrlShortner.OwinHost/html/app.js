@@ -8,7 +8,7 @@ var app=angular.module("urlshortner",[])
   this.AccessToken=undefined;
   this.Create=function(){
     var self=this;
-      $http.post('https://s.signere.no', { Url: this.Url,Prefix:this.Prefix }).then(function(result) {
+    $http.post("https://" + window.location.hostname, { Url: this.Url, Prefix: this.Prefix }).then(function (result) {
           console.log(result.data);
           self.ShortUrl = result.data.ShortUrl;
           self.AccessToken = result.data.AccessToken;
