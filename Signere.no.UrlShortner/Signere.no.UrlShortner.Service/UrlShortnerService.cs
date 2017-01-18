@@ -131,7 +131,7 @@ namespace Signere.no.UrlShortner.Service
 
         public async Task Update(string id, string AccessToken, string url, DateTime? Expires = null, bool BlockiFrame = false, string prefix = null)
         {
-            var tableRef = GetTableRefFromId(id); ;
+            var tableRef = GetTableRefFromId(id);
 
             UrlEntityInternal entity = await GetEntity(id, AccessToken, tableRef);
 
@@ -142,7 +142,15 @@ namespace Signere.no.UrlShortner.Service
                 entity.Prefix = prefix;
             entity.ETag = "*";
             if (!string.IsNullOrWhiteSpace(url))
+            {
+                if (!string.IsNullOrWhiteSpace(entity.Url))
+                    entity.UpdateLog += (!string.IsNullOrWhiteSpace(entity.UpdateLog) ? "," : "") + entity.Url;
+
+                if (Encoding.UTF8.GetByteCount(entity.UpdateLog) > 64000)
+                    entity.UpdateLog = entity.Url;
+
                 entity.Url = url;
+            }
 
             if (Cache != null && Cache.Contains(id))
             {
@@ -238,6 +246,7 @@ namespace Signere.no.UrlShortner.Service
                 Id = entityInternal.Id,
                 Prefix = entityInternal.Prefix,
                 PermanentRedirect = entityInternal.PermanentRedirect,
+                UpdateLog = entityInternal.UpdateLog
             };
         }
 

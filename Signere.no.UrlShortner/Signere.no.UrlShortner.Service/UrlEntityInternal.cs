@@ -29,7 +29,7 @@ namespace Signere.no.UrlShortner.Service
 
         public bool PermanentRedirect { get; set; }
 
-
+        public string UpdateLog { get; set; }
 
 
     }

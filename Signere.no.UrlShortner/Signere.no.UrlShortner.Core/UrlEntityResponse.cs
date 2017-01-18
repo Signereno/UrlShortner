@@ -37,5 +37,6 @@ namespace Signere.no.UrlShortner.Core
         
 
 
+        public string UpdateLog { get; set; }
     }
 }
