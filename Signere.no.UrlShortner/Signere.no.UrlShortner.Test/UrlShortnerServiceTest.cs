@@ -17,7 +17,20 @@ namespace Signere.no.UrlShortner.Test
         [TestFixtureSetUp]
         public void Setup()
         {
-            service=new UrlShortnerService(accountName, "", "https://s.signere.no",false);
+            service=new UrlShortnerService(accountName, "", "https://s.signere.no", "test", false);
+        }
+
+        [Test]
+        public async void Create_and_update_entity_should_alter_url_and_add_three_urls_to_updatelog()
+        {
+            var result = await service.Create(testUrl1, new DateTime(2015, 01, 01));
+            var response = await service.GetEntity(result.Id);
+            await service.Update(result.Id, null, testUrl2 + "?1", DateTime.UtcNow.AddDays(1));
+            await service.Update(result.Id, null, testUrl2 + "?2", DateTime.UtcNow.AddDays(1));
+            await service.Update(result.Id, null, testUrl2 + "?3", DateTime.UtcNow.AddDays(1));
+
+            response = await service.GetEntity(result.Id);
+
         }
 
         [Test]

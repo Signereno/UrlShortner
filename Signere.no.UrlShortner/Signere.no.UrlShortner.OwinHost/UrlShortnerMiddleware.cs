@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -185,11 +186,43 @@ namespace Signere.no.UrlShortner.OwinHost
 
         private async Task InvokeGet(IOwinContext context)
         {
-            var id = context.Request.Path.Value.Substring(1);
-            string prefix = null;
-            if (id.Contains("/"))
+            var path = context.Request.Path.Value.Substring(1);
+            string id = null;
+
+            string logPath = "entityupdatelogandurl/";
+
+            if (!string.IsNullOrWhiteSpace(path) && path.StartsWith(logPath) && path.Substring(logPath.Length).Contains('/'))
             {
-                var splitString = id.Split('/');
+                path = path.Substring(logPath.Length);
+
+                var splitString = path.Split('/');
+
+                if (splitString.Count() != 2)
+                {
+                    context.Response.StatusCode = 404;
+                    await context.Response.WriteAsync("Not valid url pattern");
+                    return;
+                }
+
+                id = path.Split('/').First();
+                string token = path.Split('/').Last();
+
+                var entity = await _service.GetEntityUpdateLog(id, token);
+
+                List<string> urls = !string.IsNullOrWhiteSpace(entity.UpdateLog)
+                    ? entity.UpdateLog.Split(',').ToList()
+                    : new List<string>();
+                urls.Add(entity.Url);
+
+                context.Response.StatusCode = 200;
+                await context.Response.WriteAsync(JsonConvert.SerializeObject(urls));
+                return;
+            }
+            
+            string prefix = null;
+            if (path.Contains("/"))
+            {
+                var splitString = path.Split('/');
 
                 if (splitString.Count() != 2)
                 {

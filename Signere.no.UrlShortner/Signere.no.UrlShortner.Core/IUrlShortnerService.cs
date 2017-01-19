@@ -21,6 +21,7 @@ namespace Signere.no.UrlShortner.Core
 
         Task<UrlEntity> GetEntity(string id);
 
+        Task<UrlEntity> GetEntityUpdateLog(string id, string AccessToken);
     }
 
     public interface IUrlShortnerClient : IDisposable
