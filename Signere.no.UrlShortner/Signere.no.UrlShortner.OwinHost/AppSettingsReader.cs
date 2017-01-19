@@ -28,6 +28,8 @@ namespace Signere.no.UrlShortner.OwinHost
 
         public static string HstsHeader { get { return GetSetting("HstsHeader"); } }
 
+        public static string MasterToken { get { return GetSetting("MasterToken"); } }
+
         private static string GetSetting(string key)
         {
             return ConfigurationManager.AppSettings[key];

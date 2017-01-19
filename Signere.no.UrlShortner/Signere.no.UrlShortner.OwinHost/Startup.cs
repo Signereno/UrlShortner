@@ -17,7 +17,7 @@ namespace Signere.no.UrlShortner.OwinHost
 
         public void Configuration(IAppBuilder app)
         {
-            IUrlShortnerService service=new UrlShortnerService(AppSettingsReader.StorageAccountName,AppSettingsReader.StorageAccountSecret,AppSettingsReader.Baseurl,AppSettingsReader.UseCache);
+            IUrlShortnerService service=new UrlShortnerService(AppSettingsReader.StorageAccountName,AppSettingsReader.StorageAccountSecret,AppSettingsReader.Baseurl,AppSettingsReader.MasterToken,AppSettingsReader.UseCache);
 
             var token = new OwinContext(app.Properties).Get<CancellationToken>("host.OnAppDisposing");
             if (token != CancellationToken.None)

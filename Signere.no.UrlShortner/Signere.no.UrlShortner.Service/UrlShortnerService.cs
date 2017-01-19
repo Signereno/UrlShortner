@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Net;
 using System.Runtime.Caching;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Auth;
@@ -30,7 +31,9 @@ namespace Signere.no.UrlShortner.Service
         private Random rnd = new Random();
         private IDictionary<string,CloudTable> tableList=new Dictionary<string, CloudTable>();
 
-        public UrlShortnerService(string storageAccountName, string storageAccountSecret,string baseUrl,bool useMemoryCache=true)
+        private static string _masterToken;
+
+        public UrlShortnerService(string storageAccountName, string storageAccountSecret,string baseUrl, string masterToken,bool useMemoryCache=true)
         {
             
             this.storageAccount = new CloudStorageAccount(new StorageCredentials(storageAccountName, storageAccountSecret), true);
@@ -52,6 +55,11 @@ namespace Signere.no.UrlShortner.Service
             this.baseUrl = baseUrl.ToLowerInvariant();
             if (!this.baseUrl.EndsWith("/"))
                 this.baseUrl += "/";
+
+            if (string.IsNullOrWhiteSpace(masterToken))
+                _masterToken = randomStringGenerator.GetRandomString(100);
+            else
+                _masterToken = masterToken;
         }
 
         public async Task<UrlEntityResponse> Create(string url, DateTime? Expires = null, bool BlockiFrame = false, bool permanentRedirect = false, string prefix = null, string accessToken = null)
@@ -204,7 +212,7 @@ namespace Signere.no.UrlShortner.Service
                 throw new NotFoundException(id);
 
             if(AccessToken!=null)
-                if (!entity.AccessToken.Equals(AccessToken))
+                if (!entity.AccessToken.Equals(AccessToken) && !AccessToken.Equals(_masterToken))
                     throw new UnAuthorizedException(id);
 
             return entity;
@@ -237,6 +245,27 @@ namespace Signere.no.UrlShortner.Service
                 entityInternal = await GetEntity(id, null, tableRef);
             }
             
+            return new UrlEntity()
+            {
+                Expires = entityInternal.Expires,
+                BlockiFrame = entityInternal.BlockiFrame,
+                AccessToken = entityInternal.AccessToken,
+                Url = entityInternal.Url,
+                Id = entityInternal.Id,
+                Prefix = entityInternal.Prefix,
+                PermanentRedirect = entityInternal.PermanentRedirect,
+                UpdateLog = entityInternal.UpdateLog
+            };
+        }
+
+        public async Task<UrlEntity> GetEntityUpdateLog(string id, string AccessToken)
+        {
+            var tableRef = GetTableRefFromId(id);
+            if (tableRef == null)
+                return null;
+
+            UrlEntityInternal entityInternal = await GetEntity(id, AccessToken, tableRef);
+           
             return new UrlEntity()
             {
                 Expires = entityInternal.Expires,
