@@ -186,14 +186,12 @@ namespace Signere.no.UrlShortner.OwinHost
 
         private async Task InvokeGet(IOwinContext context)
         {
-            var path = context.Request.Path.Value.Substring(1);
-            string id = null;
+            var id = context.Request.Path.Value.Substring(1);
 
             string logPath = "entityupdatelogandurl/";
-
-            if (!string.IsNullOrWhiteSpace(path) && path.StartsWith(logPath) && path.Substring(logPath.Length).Contains('/'))
+            if (!string.IsNullOrWhiteSpace(id) && id.StartsWith(logPath) && id.Substring(logPath.Length).Contains('/'))
             {
-                path = path.Substring(logPath.Length);
+                var path = id.Substring(logPath.Length);
 
                 var splitString = path.Split('/');
 
@@ -220,9 +218,9 @@ namespace Signere.no.UrlShortner.OwinHost
             }
             
             string prefix = null;
-            if (path.Contains("/"))
+            if (id.Contains("/"))
             {
-                var splitString = path.Split('/');
+                var splitString = id.Split('/');
 
                 if (splitString.Count() != 2)
                 {
@@ -233,7 +231,6 @@ namespace Signere.no.UrlShortner.OwinHost
 
                 id = splitString.Last();
                 prefix = splitString.First();
-
             }
 
             if (string.IsNullOrWhiteSpace(id) || id.Length > 20)
