@@ -83,5 +83,20 @@ namespace Signere.no.UrlShortner.Test
 
 
         }
+
+        [Test]
+        public async void TestCreate_and_update_with_two_urls_and_retrieve_url_updates()
+        {
+            var createResponse = await _client.Create(testUrl1, DateTime.UtcNow.AddDays(1), false);
+            Assert.IsNotNull(createResponse);
+            await _client.Update(createResponse.Id, createResponse.AccessToken, testUrl2);
+            await _client.Update(createResponse.Id, createResponse.AccessToken, testUrl2);
+
+            var updateResponse = await _client.GetUpdates(createResponse.Id, createResponse.AccessToken);
+
+            Assert.AreEqual(string.Format("[\"{0}\",\"{1}\",\"{2}\"]", testUrl1, testUrl2, testUrl2), updateResponse);
+
+            Console.WriteLine(updateResponse);
+        }
     }
 }

@@ -76,6 +76,15 @@ namespace Signere.no.UrlShortner.Client
                 throw new Exception(await response.Content.ReadAsStringAsync());
         }
 
+        public async Task<string> GetUpdates(string id, string accesstoken)
+        {
+            var response = await httpClient.GetAsync(string.Format("entityupdatelogandurl/{0}/{1}", id, accesstoken));
+            if (!response.IsSuccessStatusCode)
+                throw new Exception(await response.Content.ReadAsStringAsync());
+
+            return await response.Content.ReadAsStringAsync();
+        }
+
         public void Dispose()
         {
             if(httpClient!=null)
