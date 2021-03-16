@@ -189,7 +189,7 @@ namespace Signere.no.UrlShortner.OwinHost
             var id = context.Request.Path.Value.Substring(1);
 			
 			if(id.StartsWith("s/")) 
-				id = id.SubString(2);
+				id = id.Substring(2);
 
             string logPath = "entityupdatelogandurl/";
             if (!string.IsNullOrWhiteSpace(id) && id.StartsWith(logPath) && id.Substring(logPath.Length).Contains('/'))
